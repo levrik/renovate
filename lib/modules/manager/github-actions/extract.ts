@@ -1,3 +1,4 @@
+import is from '@sindresorhus/is';
 import { load } from 'js-yaml';
 import { logger } from '../../../logger';
 import { newlineRegex, regEx } from '../../../util/regex';
@@ -104,7 +105,7 @@ function extractWithYAMLParser(
     return [];
   }
 
-  for (const job of Object.values(pkg?.jobs ?? {})) {
+  for (const job of Object.values(pkg?.jobs ?? {}).filter(is.truthy)) {
     if (job.container !== undefined) {
       const dep = extractContainer(job.container);
       dep.depType = 'container';
